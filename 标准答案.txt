@@ -1,0 +1,25 @@
+package main
+
+import (
+	"encoding/hex"
+	"github.com/ethereum/go-ethereum/crypto"
+	"log"
+)
+
+func generateAddress() string {
+
+	publicKeyHex := "04acf0e9aff86483c4de605b499c001ffc199cb1c26db53506038b49d2cf98dc3e97a78fde3d7bdddb8615086d854053fe55a33c93693b94d7cf8ef6f589053d26"
+
+	recoverPublicKeyBytes, err1 := hex.DecodeString(publicKeyHex)
+	if err1 != nil {
+		log.Fatal(err1)
+	}
+
+	recoverPublicKey, err2 := crypto.UnmarshalPubkey(recoverPublicKeyBytes)
+	if err2 != nil {
+		log.Fatal(err2)
+	}
+	address := crypto.PubkeyToAddress(*recoverPublicKey)
+	return address.Hex()
+
+}
